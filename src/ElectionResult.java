@@ -5,7 +5,7 @@ public class ElectionResult {
     private double per_dem;
     private double per_gop;
     private String diff;
-    private String per_point_diff;
+    private double per_point_diff;
     private String state_abbr;
     private String county_name;
     private int combined_fips;
@@ -58,11 +58,11 @@ public class ElectionResult {
         this.diff = diff;
     }
 
-    public String getPer_point_diff() {
+    public double getPer_point_diff() {
         return per_point_diff;
     }
 
-    public void setPer_point_diff(String per_point_diff) {
+    public void setPer_point_diff(double per_point_diff) {
         this.per_point_diff = per_point_diff;
     }
 
