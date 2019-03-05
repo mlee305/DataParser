@@ -25,21 +25,8 @@ public class Utils {
         String[] rows = data.split("\n");
         for (int i = 1; i < rows.length; i++) {
             ElectionResult electionResult = new ElectionResult();
-
-            boolean again;
-            do {
-                again = false;
-                int index1 = rows[i].indexOf("\"");
-                int index2 = rows[i].indexOf("\"", index1 + 1);
-                int commaIndex = rows[i].indexOf(",", index1);
-                if (commaIndex > index1 && commaIndex < index2) {
-                    rows[i] = rows[i].substring(0, commaIndex) + rows[i].substring(commaIndex + 1);
-                    again = true;
-                }
-            } while (again);
-            rows[i] = rows[i].substring(0, rows[i].indexOf("%")) + rows[i].substring(rows[i].indexOf("%") + 1);
+            rows[i] = modifyString(rows[i]);
             String[] parts = rows[i].split(",");
-
 
             electionResult.setVotes_dem(Double.parseDouble(parts[1]));
             electionResult.setVotes_gop(Double.parseDouble(parts[2]));
@@ -54,5 +41,21 @@ public class Utils {
             results.add(electionResult);
         }
         return results;
+    }
+
+    public static String modifyString(String input) {
+        boolean again;
+        do {
+            again = false;
+            int index1 = input.indexOf("\"");
+            int index2 = input.indexOf("\"", index1 + 1);
+            int commaIndex = input.indexOf(",", index1);
+            if (commaIndex > index1 && commaIndex < index2) {
+                input = input.substring(0, commaIndex) + input.substring(commaIndex + 1);
+                again = true;
+            }
+        } while (again);
+        input = input.substring(0, input.indexOf("%")) + input.substring(input.indexOf("%") + 1);
+        return input;
     }
 }
