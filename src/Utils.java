@@ -58,4 +58,35 @@ public class Utils {
         input = input.substring(0, input.indexOf("%")) + input.substring(input.indexOf("%") + 1);
         return input;
     }
+
+    public static DataManager parseEducationData(String data) {
+        String[] lines = data.split("\n");
+        return null;
+    }
+
+    public static String removeCommasInQuotes(String input) {
+        boolean inQuotes = false;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.substring(i, i+1).equals("\"")){
+                inQuotes = !inQuotes;
+            }
+            if (inQuotes && input.substring(i, i+1).equals(",")) {
+                input = input.substring(0, i) + input.substring(i+1);
+            }
+        }
+        return input;
+    }
+
+    public static String removeConsecutiveCommas(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            if (input.substring(i, i+1).equals(",")) {
+                int j = i+1;
+                while (j < input.length() && input.substring(j, j+1).equals(",")) {
+                    j++;
+                }
+                input = input.substring(0, i+1) + input.substring(j);
+            }
+        }
+        return input;
+    }
 }
