@@ -76,6 +76,9 @@ public class Utils {
             String[] components = currentLine.split(",");
             State currentState = dataManager.getState(components[1]);
             County currentCounty =  new County(components[2], Integer.parseInt(components[0]));
+            if (components.length < 45) {
+                continue;
+            }
             Education2016 education2016 = new Education2016(Double.parseDouble(components[43]), Double.parseDouble(components[44]),
                     Double.parseDouble(components[45]), Double.parseDouble(components[46]));
             currentCounty.setEduc2016(education2016);
@@ -89,9 +92,21 @@ public class Utils {
 
     public static Election2016 getElection2016(String electionData, String countyName) {
         ArrayList<ElectionResult> electionResults = parse2016PresidentialResults(electionData);
+        if (!contains(electionResults, countyName)) {
+            return null;
+        }
         ElectionResult currentElectionResult = getCurrentElectionResult(electionResults, countyName);
         Election2016 election2016 = new Election2016(currentElectionResult.getVotes_dem(), currentElectionResult.getVotes_gop(), currentElectionResult.getTotal_votes());
         return election2016;
+    }
+
+    public static boolean contains(ArrayList<ElectionResult> electionResults, String countyName) {
+        for (ElectionResult electionResult : electionResults) {
+            if (electionResult.getCounty_name().equals(countyName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static ElectionResult getCurrentElectionResult(ArrayList<ElectionResult> electionResults, String countyName) {
@@ -105,10 +120,16 @@ public class Utils {
 
     public static Employment2016 getEmployment2016(String employmentData, int index) {
         String[] employmentLines = employmentData.split("\n");
+        if (index > employmentLines.length -1) {
+            return null;
+        }
         String currentLine = removeExtraSpacesAndCommasInQuotes(employmentLines[index]);
         String[] components = currentLine.split(",");
         System.out.println("Employment line: " + currentLine);
-        Employment2016 employment2016 = new Employment2016(Integer.parseInt(components[42].substring(1, components[42].length()-1)), Integer.parseInt(components[43].substring(1, components[43].length()-1)), Integer.parseInt(components[44].substring(1, components[44].length()-1)), Double.parseDouble(components[45]));
+        if (components.length < 45) {
+            return null;
+        }
+        Employment2016 employment2016 = new Employment2016(Integer.parseInt(components[42].substring(1, components[42].length()-1).trim()), Integer.parseInt(components[43].substring(1, components[43].length()-1).trim()), Integer.parseInt(components[44].substring(1, components[44].length()-1).trim()), Double.parseDouble(components[45].trim()));
         return employment2016;
     }
 
