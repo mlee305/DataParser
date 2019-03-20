@@ -70,6 +70,27 @@ public class Utils {
         return dataManager;
     }
 
+    public static double parseDepressionData(String s) {
+        String[] lines = s.split("\n");
+        int numlines = 0;
+        double totalpercent = 0;
+        for (String line : lines) {
+            if (line.indexOf("%") == -1) continue;
+            else if (line.indexOf("%") != -1){
+                numlines++;
+                totalpercent += percentDepression(line);
+            }
+        }
+        return totalpercent/numlines;
+    }
+
+    private static double percentDepression(String line) {
+        String[] vals = line.split(",");
+        String percent = vals[vals.length-1];
+        percent = percent.substring(0, percent.indexOf("%"));
+        return Double.parseDouble(percent);
+    }
+
     public static void addCountiesToState(String[] lines, DataManager dataManager, String employmentData, String electionData) {
         for (int i = 6; i < 3288; i++){
             String currentLine = removeExtraSpacesAndCommasInQuotes(lines[i]);
@@ -125,7 +146,6 @@ public class Utils {
         }
         String currentLine = removeExtraSpacesAndCommasInQuotes(employmentLines[index]);
         String[] components = currentLine.split(",");
-        System.out.println("Employment line: " + currentLine);
         if (components.length < 45) {
             return null;
         }
@@ -137,7 +157,6 @@ public class Utils {
         for (int i = 6; i < 3288; i++) {
             String currentLine = removeExtraSpacesAndCommasInQuotes(lines[i]);
             String[] components = currentLine.split(",");
-            System.out.println(components[1] + ", " + i);
             if (!dataManager.containsState(components[1])) {
                 State newState = new State(components[1]);
                 dataManager.addState(newState);
