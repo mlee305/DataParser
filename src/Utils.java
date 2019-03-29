@@ -92,7 +92,7 @@ public class Utils {
     }
 
     public static void addCountiesToState(String[] lines, DataManager dataManager, String employmentData, String electionData) {
-        for (int i = 6; i < 3288; i++){
+        for (int i = 6; i < 3285; i++){
             String currentLine = removeExtraSpacesAndCommasInQuotes(lines[i]);
             String[] components = currentLine.split(",");
             State currentState = dataManager.getState(components[1]);
@@ -154,7 +154,7 @@ public class Utils {
     }
 
     public static void createStates(String[] lines, DataManager dataManager) {
-        for (int i = 6; i < 3288; i++) {
+        for (int i = 6; i < 3285; i++) {
             String currentLine = removeExtraSpacesAndCommasInQuotes(lines[i]);
             String[] components = currentLine.split(",");
             if (!dataManager.containsState(components[1])) {
